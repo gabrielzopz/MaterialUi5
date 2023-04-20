@@ -1,5 +1,5 @@
-import { AppThemeProvider } from "./shared/contexts";
-import { BrowserRouter } from "react-router-dom";
+import { AppThemeProvider } from './shared/contexts';
+import { BrowserRouter } from 'react-router-dom';
 import { AppRoutes } from './routes';
 
 
@@ -11,6 +11,6 @@ export const App = () => {
       </BrowserRouter>
     </AppThemeProvider>
   );
-}
+};
 
 
