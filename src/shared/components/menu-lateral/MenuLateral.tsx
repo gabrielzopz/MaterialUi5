@@ -1,16 +1,46 @@
 import { Drawer, useTheme, Avatar, Divider, List, ListItemButton, ListItemIcon, Icon, ListItemText, useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
 import { useDrawerContext } from '../../contexts';
+import { useNavigate, useResolvedPath, useMatch } from 'react-router-dom';
 
-interface IAppThemeProviderProps {
-    children: React.ReactNode
+interface IListItemLinkProps {
+    to: string;
+    label: string;
+    icon: string;
+    onClick: (() => void) | undefined;
 }
 
-export const MenuLateral: React.FC<IAppThemeProviderProps> = ({ children }) => {
+const ListItemLink: React.FC<IListItemLinkProps> = ({ to, icon, label, onClick }) => {
+
+    const navigate = useNavigate();
+
+    const resolvedPath = useResolvedPath(to);
+    const match = useMatch({ path: resolvedPath.pathname, end: false });
+
+    const handleClick = () => {
+        navigate(to);
+        onClick?.(); // ?. quer dizer: se for andefined, nao faz nada, se nao for entao executa.
+    };
+
+    return (
+        <ListItemButton selected={!!match} onClick={handleClick}>
+            <ListItemIcon>
+                <Icon>{icon}</Icon>                                    
+            </ListItemIcon>
+            <ListItemText primary={label} />
+        </ListItemButton>
+    );
+};
+
+interface IMenuLateralProps {
+    children: React.ReactNode;
+}
+
+export const MenuLateral: React.FC<IMenuLateralProps> = ({ children }) => {
     const theme = useTheme();
     const smDown = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const { isDrawerOpen, toggleDrawerOpen } = useDrawerContext();
+    const { isDrawerOpen, toggleDrawerOpen, drawerOptions } = useDrawerContext();
 
     return (
         <>
@@ -28,15 +58,22 @@ export const MenuLateral: React.FC<IAppThemeProviderProps> = ({ children }) => {
 
                     <Box flex={1}>
                         <List component="nav">
-                            <ListItemButton>
-                                <ListItemIcon>
-                                    <Icon>home</Icon>                                    
-                                </ListItemIcon>
-                                <ListItemText primary="Página inicial" />
-                            </ListItemButton>
+                            {drawerOptions.map(drawerOption => (
+                                <ListItemLink 
+                                    key={drawerOption.path}                                    
+                                    to={drawerOption.path}
+                                    icon={drawerOption.icon}
+                                    label={drawerOption.label}
+                                    onClick={smDown ? toggleDrawerOpen : undefined}
+                                />
+                            ))}
+                            <ListItemLink 
+                                icon='star'
+                                to='/pagina-inicial2'
+                                label='Página inicial2'
+                                onClick={smDown ? toggleDrawerOpen : undefined}
+                            />                            
                         </List>
-
-
                     </Box>
 
                     
