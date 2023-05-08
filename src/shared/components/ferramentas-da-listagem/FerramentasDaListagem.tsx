@@ -28,7 +28,8 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
             paddingX={2} 
             display="flex" 
             gap={1} 
-            alignItems="center">
+            alignItems="center"
+        >
                 
             {mostrarInputBusca && (    
                 <TextField 
@@ -42,12 +43,13 @@ export const FerramentasDaListagem: React.FC<IFerramentasDaListagemProps> = ({
             <Box flex={1} display="flex" justifyContent="end" >
                 {mostrarBotaoNovo && (
                     <Button
-                    color='primary'
-                    disableElevation
-                    variant='contained'
-                    onClick={aoClicarEmNovo}
-                    endIcon={<Icon>add</Icon>}
-                    >{textoBotaoNovo}</Button>
+                        color='primary'
+                        disableElevation
+                        variant='contained'
+                        onClick={aoClicarEmNovo}
+                        endIcon={<Icon>add</Icon>}
+                        >{textoBotaoNovo}
+                    </Button>
                 )}
             </Box>
         </Box>
